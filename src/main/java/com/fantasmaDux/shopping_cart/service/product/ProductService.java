@@ -1,5 +1,7 @@
 package com.fantasmaDux.shopping_cart.service.product;
 
+import com.fantasmaDux.shopping_cart.request.AddProductRequest;
+import com.fantasmaDux.shopping_cart.request.UpdateProductRequest;
 import com.fantasmaDux.shopping_cart.store.model.Product;
 
 import java.math.BigDecimal;
@@ -33,10 +35,9 @@ public interface ProductService {
 
     Long countProductsByBrandAndName(String brand, String name);
 
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest request);
 
     void deleteProductById(UUID id);
 
-    void updateProductById(UUID id, Product product);
-
+    Product updateProductById(UUID id, UpdateProductRequest request);
 }
