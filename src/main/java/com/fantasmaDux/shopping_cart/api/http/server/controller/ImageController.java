@@ -52,7 +52,7 @@ public class ImageController {
 
     }
 
-    @PutMapping("/image/{imageId}/updates")
+    @PutMapping("/image/{imageId}/update")
     public ResponseEntity<ApiResponse> updateImage(@PathVariable UUID imageId, @RequestBody MultipartFile file) {
         try {
             Image image = imageService.getImageById(imageId);
@@ -68,7 +68,7 @@ public class ImageController {
                 .body(new ApiResponse("Update failed", INTERNAL_SERVER_ERROR));
     }
 
-    @DeleteMapping("image/{imageId}/deletes")
+    @DeleteMapping("image/{imageId}/delete")
     public ResponseEntity<ApiResponse> deleteImage(@PathVariable UUID imageId) {
         try {
             Image image = imageService.getImageById(imageId);
