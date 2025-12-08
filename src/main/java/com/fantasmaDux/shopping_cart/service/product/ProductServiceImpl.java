@@ -1,13 +1,18 @@
 package com.fantasmaDux.shopping_cart.service.product;
 
+import com.fantasmaDux.shopping_cart.api.dto.ImageDto;
+import com.fantasmaDux.shopping_cart.api.dto.ProductDto;
 import com.fantasmaDux.shopping_cart.api.exception.ProductNotFoundException;
 import com.fantasmaDux.shopping_cart.request.AddProductRequest;
 import com.fantasmaDux.shopping_cart.request.UpdateProductRequest;
 import com.fantasmaDux.shopping_cart.store.model.Category;
+import com.fantasmaDux.shopping_cart.store.model.Image;
 import com.fantasmaDux.shopping_cart.store.model.Product;
 import com.fantasmaDux.shopping_cart.store.repository.CategoryRepository;
+import com.fantasmaDux.shopping_cart.store.repository.ImageRepository;
 import com.fantasmaDux.shopping_cart.store.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,6 +25,8 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
     @Override
     public Product getProductById(UUID id) {
@@ -78,12 +85,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(AddProductRequest request) {
-        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory()))
                 .orElseGet(() -> {
-                    Category newCategory = new Category(request.getCategory().getName());
+                    Category newCategory = new Category(request.getCategory());
                     return categoryRepository.save(newCategory);
                 });
-        request.setCategory(category);
         return productRepository.save(createProduct(request, category));
     }
 
@@ -111,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
-        .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
 
     private Product updateExistingProduct(Product existingProduct, UpdateProductRequest request) {
@@ -124,5 +130,21 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findByName(request.getCategory().getName());
         existingProduct.setCategory(category);
         return existingProduct;
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+        productDto.setImages(imageDtos);
+        return productDto;
     }
 }

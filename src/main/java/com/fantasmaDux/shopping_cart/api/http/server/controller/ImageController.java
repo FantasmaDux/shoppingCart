@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/images")
+@RequestMapping("${api-prefix}/images")
 public class ImageController {
     private final ImageService imageService;
 
@@ -40,6 +41,7 @@ public class ImageController {
     }
 
     @GetMapping("/image/download/{imageId}")
+    @Transactional(readOnly = true)
     public ResponseEntity<Resource> downloadImage(@PathVariable UUID imageId) throws SQLException {
         Image image = imageService.getImageById(imageId);
         ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1,

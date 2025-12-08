@@ -1,5 +1,6 @@
 package com.fantasmaDux.shopping_cart.service.product;
 
+import com.fantasmaDux.shopping_cart.api.dto.ProductDto;
 import com.fantasmaDux.shopping_cart.request.AddProductRequest;
 import com.fantasmaDux.shopping_cart.request.UpdateProductRequest;
 import com.fantasmaDux.shopping_cart.store.model.Product;
@@ -40,4 +41,8 @@ public interface ProductService {
     void deleteProductById(UUID id);
 
     Product updateProductById(UUID id, UpdateProductRequest request);
+
+    List<ProductDto> getConvertedProducts(List<Product> products);
+
+    ProductDto convertToDto(Product product);
 }

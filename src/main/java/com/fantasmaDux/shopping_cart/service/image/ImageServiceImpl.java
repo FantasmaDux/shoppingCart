@@ -60,8 +60,8 @@ public class ImageServiceImpl implements ImageService {
 
     private ImageDto createImageDto(Image image, String downloadUrl) {
         ImageDto imageDto = new ImageDto();
-        imageDto.setImageId(image.getId());
-        imageDto.setImageName(image.getFileName());
+        imageDto.setId(image.getId());
+        imageDto.setFileName(image.getFileName());
         imageDto.setDownloadUrl(downloadUrl);
         return imageDto;
     }

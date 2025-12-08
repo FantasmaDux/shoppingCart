@@ -1,7 +1,7 @@
 package com.fantasmaDux.shopping_cart.store.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +20,10 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> products;
 
     public Category(String name) {
+        this.name = name;
     }
 }
