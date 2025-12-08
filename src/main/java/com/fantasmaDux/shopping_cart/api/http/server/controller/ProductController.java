@@ -19,15 +19,15 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ApiResponse> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("{productId}")
-    public ResponseEntity<ApiResponse> getProductById(@PathVariable("productId") UUID id) {
+    @GetMapping("{id}")
+    public ResponseEntity<ApiResponse> getProductById(@PathVariable("id") UUID id) {
         Product product = productService.getProductById(id);
         ProductDto convertedProduct = productService.convertToDto(product);
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProduct));
@@ -40,21 +40,21 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("Add product success", convertedNewProduct));
     }
 
-    @PutMapping("/{productId}")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productId") UUID id, @RequestBody UpdateProductRequest
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("id") UUID id, @RequestBody UpdateProductRequest
             request) {
         Product updatedProduct = productService.updateProductById(id, request);
         ProductDto convertedUpdatedProduct = productService.convertToDto(updatedProduct);
         return ResponseEntity.ok().body(new ApiResponse("Updated product success", convertedUpdatedProduct));
     }
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("productId") UUID id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProductById(id);
         return ResponseEntity.ok().body(new ApiResponse("delete product success", null));
     }
 
-    @GetMapping("product/by/{brand}-and-{name}")
+    @GetMapping("/brand/{brand}/name/{name}")
     public ResponseEntity<ApiResponse> getProductByBrandAndName(
             @PathVariable String brand, @PathVariable String name
     ) {
@@ -65,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("product/by/{category}-and-{brand}")
+    @GetMapping("/category/{category}/brand/{brand}")
     public ResponseEntity<ApiResponse> getProductByCategoryAndBrand(
             @PathVariable String category, @PathVariable String brand
     ) {
@@ -76,7 +76,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("product/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse> getProductByName(@PathVariable String name) {
         List<Product> products = productService.getProductsByName(name);
         List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
@@ -84,7 +84,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("/by-brand")
+    @GetMapping("/brand")
     public ResponseEntity<ApiResponse> getProductByBrand(@RequestParam String brand) {
         List<Product> products = productService.getProductsByBrand(brand);
         List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
@@ -92,7 +92,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("/by-category")
+    @GetMapping("/category")
     public ResponseEntity<ApiResponse> getProductByCategory(@RequestParam String category) {
         List<Product> products = productService.getProductsByCategory(category);
         List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
@@ -100,7 +100,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProducts));
     }
 
-    @GetMapping("product/count/by/{brand}-and-{name}")
+    @GetMapping("/brand/{brand}/name/{name}/count")
     public ResponseEntity<ApiResponse> countProductsByBrandAndName(
             @PathVariable String brand, @PathVariable String name
     ) {

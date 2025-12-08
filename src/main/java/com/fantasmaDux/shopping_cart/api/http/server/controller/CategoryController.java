@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ApiResponse> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
         return ResponseEntity.ok().body(new ApiResponse("Found", categories));
@@ -29,26 +29,26 @@ public class CategoryController {
         return ResponseEntity.ok().body(new ApiResponse("Success", category));
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id) {
         Category category = categoryService.getCategoryById(id);
         return ResponseEntity.ok().body(new ApiResponse("Found", category));
     }
 
-    @GetMapping("/category/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse> getCategoryByName(@PathVariable String name) {
         Category category = categoryService.getCategoryByName(name);
         return ResponseEntity.ok().body(new ApiResponse("Found", category));
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id) {
         categoryService.deleteCategoryById(id);
         return ResponseEntity.ok().body(new ApiResponse("Deleted", null));
     }
 
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable UUID id, @RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategoryById(category, id);
         return ResponseEntity.ok().body(new ApiResponse("Updated", updatedCategory));
