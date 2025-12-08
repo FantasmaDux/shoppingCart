@@ -1,7 +1,6 @@
 package com.fantasmaDux.shopping_cart.api.http.server.controller;
 
 import com.fantasmaDux.shopping_cart.api.dto.ImageDto;
-import com.fantasmaDux.shopping_cart.api.exception.ImageNotFoundException;
 import com.fantasmaDux.shopping_cart.api.response.ApiResponse;
 import com.fantasmaDux.shopping_cart.service.image.ImageService;
 import com.fantasmaDux.shopping_cart.store.model.Image;
@@ -19,28 +18,20 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api-prefix}/images")
 public class ImageController {
     private final ImageService imageService;
 
-    @PostMapping("/upload")
+    @PostMapping("")
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files,
                                                   @RequestParam UUID productId) {
-        try {
-            List<ImageDto> imageDtos = imageService.saveImages(files, productId);
-            return ResponseEntity.ok(new ApiResponse("Upload success", imageDtos));
-        } catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Upload failed", e.getMessage()));
-        }
+        List<ImageDto> imageDtos = imageService.saveImages(files, productId);
+        return ResponseEntity.ok(new ApiResponse("Upload success", imageDtos));
     }
 
-    @GetMapping("/image/download/{imageId}")
+    @GetMapping("/{imageId}")
     @Transactional(readOnly = true)
     public ResponseEntity<Resource> downloadImage(@PathVariable UUID imageId) throws SQLException {
         Image image = imageService.getImageById(imageId);
@@ -54,37 +45,16 @@ public class ImageController {
 
     }
 
-    @PutMapping("/image/{imageId}/update")
+    @PutMapping("/{imageId}")
     public ResponseEntity<ApiResponse> updateImage(@PathVariable UUID imageId, @RequestBody MultipartFile file) {
-        try {
-            Image image = imageService.getImageById(imageId);
-            if (image != null) {
-                imageService.updateImage(file, imageId);
-                return ResponseEntity.ok(new ApiResponse("Update success", null));
-            }
-        } catch (ImageNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND)
-                    .body(new ApiResponse("Update failed", e.getMessage()));
-        }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse("Update failed", INTERNAL_SERVER_ERROR));
+        imageService.updateImage(file, imageId);
+        return ResponseEntity.ok(new ApiResponse("Update success", null));
     }
 
-    @DeleteMapping("image/{imageId}/delete")
+    @DeleteMapping("/{imageId}")
     public ResponseEntity<ApiResponse> deleteImage(@PathVariable UUID imageId) {
-        try {
-            Image image = imageService.getImageById(imageId);
-            if (image != null) {
-                imageService.deleteImageById(imageId);
-                return ResponseEntity.ok(new ApiResponse("Delete success", null));
-            }
-        } catch (ImageNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND)
-                    .body(new ApiResponse("Delete failed", e.getMessage()));
-        }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse("Delete failed", INTERNAL_SERVER_ERROR));
+        imageService.deleteImageById(imageId);
+        return ResponseEntity.ok(new ApiResponse("Delete success", null));
     }
-
 
 }
