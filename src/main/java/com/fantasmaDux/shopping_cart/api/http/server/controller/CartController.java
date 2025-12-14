@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/carts")
+@RequestMapping("${api-prefix}/carts")
 public class CartController {
     private final CartService cartService;
 

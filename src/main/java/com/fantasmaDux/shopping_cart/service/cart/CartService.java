@@ -10,6 +10,6 @@ public interface CartService {
     Cart getCart(UUID id);
     void clearCart(UUID id);
     BigDecimal getTotalPrice(UUID id);
-
+//    UUID initializeNewCart(User user)
 
 }
