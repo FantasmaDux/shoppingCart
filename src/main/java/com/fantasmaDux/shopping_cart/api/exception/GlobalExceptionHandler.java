@@ -37,6 +37,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
     }
 
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleCartNotFoundException(CartNotFoundException e) {
+        log.warn("Cart not found: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleGenericException(Exception e) {
         log.error("Unexpected error: {}", e.getMessage());
