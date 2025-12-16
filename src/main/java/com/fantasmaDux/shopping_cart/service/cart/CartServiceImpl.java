@@ -45,6 +45,11 @@ public class CartServiceImpl implements CartService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    @Override
+    public Cart getCartByUserId(UUID userId) {
+        return cartRepository.findByUserId(userId);
+    }
+
 //    @Override
 //    public UUID c(User user) {
 //        return Optional.ofNullable(getCartByUserId(user.getId()))
