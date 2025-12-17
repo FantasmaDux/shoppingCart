@@ -1,5 +1,6 @@
 package com.fantasmaDux.shopping_cart.service.user;
 
+import com.fantasmaDux.shopping_cart.api.dto.UserDto;
 import com.fantasmaDux.shopping_cart.api.exception.UserAlreadyExistsException;
 import com.fantasmaDux.shopping_cart.api.exception.UserNotFoundException;
 import com.fantasmaDux.shopping_cart.request.CreateUserRequest;
@@ -8,6 +9,7 @@ import com.fantasmaDux.shopping_cart.store.model.User;
 import com.fantasmaDux.shopping_cart.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User getUserById(UUID userId) {
@@ -57,5 +60,10 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         });
 
+    }
+
+    @Override
+    public UserDto convertUserToDto(User user) {
+        return modelMapper.map(user, UserDto.class);
     }
 }

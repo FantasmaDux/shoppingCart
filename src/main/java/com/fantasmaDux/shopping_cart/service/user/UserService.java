@@ -1,5 +1,6 @@
 package com.fantasmaDux.shopping_cart.service.user;
 
+import com.fantasmaDux.shopping_cart.api.dto.UserDto;
 import com.fantasmaDux.shopping_cart.request.CreateUserRequest;
 import com.fantasmaDux.shopping_cart.request.UpdateUserRequest;
 import com.fantasmaDux.shopping_cart.store.model.User;
@@ -15,4 +16,5 @@ public interface UserService {
 
     void deleteUserById(UUID userId);
 
+    UserDto convertUserToDto(User user);
 }
