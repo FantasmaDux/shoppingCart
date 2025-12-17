@@ -31,4 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
                     ":includeMax = false AND p.price < :maxPrice)"
     )
     List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, boolean includeMin, boolean includeMax);
+
+    boolean existsByNameAndBrand(String name, String brand);
 }

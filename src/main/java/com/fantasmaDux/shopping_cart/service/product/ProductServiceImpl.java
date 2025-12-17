@@ -2,6 +2,7 @@ package com.fantasmaDux.shopping_cart.service.product;
 
 import com.fantasmaDux.shopping_cart.api.dto.ImageDto;
 import com.fantasmaDux.shopping_cart.api.dto.ProductDto;
+import com.fantasmaDux.shopping_cart.api.exception.AlreadyExistsException;
 import com.fantasmaDux.shopping_cart.api.exception.ProductNotFoundException;
 import com.fantasmaDux.shopping_cart.request.AddProductRequest;
 import com.fantasmaDux.shopping_cart.request.UpdateProductRequest;
@@ -85,12 +86,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(AddProductRequest request) {
+
+        if (productExists(request.getName(), request.getBrand())) {
+            throw new AlreadyExistsException("product with brand " + request.getBrand()
+                    + "and name " + request.getName() + " already exists");
+        }
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory());
                     return categoryRepository.save(newCategory);
                 });
         return productRepository.save(createProduct(request, category));
+    }
+
+    private boolean productExists(String name, String brand) {
+        return productRepository.existsByNameAndBrand(name, brand);
     }
 
     private Product createProduct(AddProductRequest request, Category category) {

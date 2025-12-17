@@ -3,6 +3,10 @@ package com.fantasmaDux.shopping_cart.api.http.server.controller;
 import com.fantasmaDux.shopping_cart.api.response.ApiResponse;
 import com.fantasmaDux.shopping_cart.service.cart.CartService;
 import com.fantasmaDux.shopping_cart.service.cartItem.CartItemService;
+import com.fantasmaDux.shopping_cart.service.user.UserService;
+import com.fantasmaDux.shopping_cart.store.model.Cart;
+import com.fantasmaDux.shopping_cart.store.model.User;
+import com.fantasmaDux.shopping_cart.store.repository.CartItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +19,19 @@ import java.util.UUID;
 public class CartItemController {
     private final CartItemService cartItemService;
     private final CartService cartService;
+    private final UserService userService;
 
     @PostMapping("/item")
     public ResponseEntity<ApiResponse> addItemToCart(
-            @RequestParam(required = false) UUID cartId,
+            @RequestParam UUID userId,
             @RequestParam UUID productId,
             @RequestParam Integer quantity) {
-//        if (cartId == null) {
-//            cartId = cartService.public UUID initializeNewCart(User user);
-//        }
-        cartItemService.addItemToCart(cartId, productId, quantity);
+
+        User user = userService.getUserById(userId);
+
+        Cart cart = cartService.initializeNewCart(user);
+
+        cartItemService.addItemToCart(cart.getId(), productId, quantity);
         return ResponseEntity.ok(new ApiResponse("Add item success", null));
     }
 

@@ -83,7 +83,8 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByUserId(userId).stream().map(this :: convertToOrderDto).collect(Collectors.toList());
     }
 
-    private OrderDto convertToOrderDto(Order order) {
+    @Override
+    public OrderDto convertToOrderDto(Order order) {
         return modelMapper.map(order, OrderDto.class);
     }
 }

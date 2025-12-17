@@ -10,6 +10,7 @@ import java.util.UUID;
 public class OrderItemDto {
     private UUID id;
     private String productName;
+    private String productBrand;
     private BigDecimal price;
     private int quantity;
 

@@ -20,7 +20,8 @@ public class OrderController {
     @PostMapping("")
     public ResponseEntity<ApiResponse> createOrder(@RequestBody UUID userId) {
         Order order = orderService.placeOrder(userId);
-        return ResponseEntity.ok(new ApiResponse("Item order success", order));
+        OrderDto orderDto = orderService.convertToOrderDto(order);
+        return ResponseEntity.ok(new ApiResponse("Item order success", orderDto));
     }
 
     @GetMapping("/{orderId}")

@@ -11,4 +11,6 @@ public interface OrderService {
     OrderDto getOrder(UUID orderId);
 
     List<OrderDto> getUserOrders(UUID userId);
+
+    OrderDto convertToOrderDto(Order order);
 }

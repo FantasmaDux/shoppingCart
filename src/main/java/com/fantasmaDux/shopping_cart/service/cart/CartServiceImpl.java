@@ -1,8 +1,8 @@
 package com.fantasmaDux.shopping_cart.service.cart;
 
 import com.fantasmaDux.shopping_cart.api.exception.CartNotFoundException;
-import com.fantasmaDux.shopping_cart.service.cartItem.CartItemService;
 import com.fantasmaDux.shopping_cart.store.model.CartItem;
+import com.fantasmaDux.shopping_cart.store.model.User;
 import com.fantasmaDux.shopping_cart.store.repository.CartItemRepository;
 import com.fantasmaDux.shopping_cart.store.model.Cart;
 import com.fantasmaDux.shopping_cart.store.repository.CartRepository;
@@ -50,13 +50,13 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByUserId(userId);
     }
 
-//    @Override
-//    public UUID c(User user) {
-//        return Optional.ofNullable(getCartByUserId(user.getId()))
-//                .orElseGet(() -> {
-//                    Cart cart = new Cart();
-//                    cart.setUser(user);
-//                    return cartRepository.save(cart);
-//                });
-//    }
+    @Override
+    public Cart initializeNewCart(User user) {
+        return Optional.ofNullable(getCartByUserId(user.getId()))
+                .orElseGet(() -> {
+                    Cart cart = new Cart();
+                    cart.setUser(user);
+                    return cartRepository.save(cart);
+                });
+    }
 }

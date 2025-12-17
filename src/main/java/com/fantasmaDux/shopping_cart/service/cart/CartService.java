@@ -2,6 +2,7 @@ package com.fantasmaDux.shopping_cart.service.cart;
 
 import com.fantasmaDux.shopping_cart.store.model.Cart;
 import com.fantasmaDux.shopping_cart.store.model.Order;
+import com.fantasmaDux.shopping_cart.store.model.User;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,4 +16,5 @@ public interface CartService {
 
     Cart getCartByUserId(UUID userId);
 
+    Cart initializeNewCart(User user);
 }
