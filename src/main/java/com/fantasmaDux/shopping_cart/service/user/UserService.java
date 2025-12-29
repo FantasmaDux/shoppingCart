@@ -17,4 +17,6 @@ public interface UserService {
     void deleteUserById(UUID userId);
 
     UserDto convertUserToDto(User user);
+
+    User getAuthentificatedUser();
 }

@@ -27,8 +27,7 @@ public class CartItemController {
             @RequestParam UUID productId,
             @RequestParam Integer quantity) {
 
-        User user = userService.getUserById(userId);
-
+        User user = userService.getAuthentificatedUser();
         Cart cart = cartService.initializeNewCart(user);
 
         cartItemService.addItemToCart(cart.getId(), productId, quantity);

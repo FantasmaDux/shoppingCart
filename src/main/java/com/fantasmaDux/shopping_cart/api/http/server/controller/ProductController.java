@@ -8,6 +8,7 @@ import com.fantasmaDux.shopping_cart.service.product.ProductService;
 import com.fantasmaDux.shopping_cart.store.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("success", convertedProduct));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
         Product newProduct = productService.addProduct(product);
@@ -40,6 +42,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("Add product success", convertedNewProduct));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable("id") UUID id, @RequestBody UpdateProductRequest
             request) {
@@ -48,6 +51,7 @@ public class ProductController {
         return ResponseEntity.ok().body(new ApiResponse("Updated product success", convertedUpdatedProduct));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProductById(id);

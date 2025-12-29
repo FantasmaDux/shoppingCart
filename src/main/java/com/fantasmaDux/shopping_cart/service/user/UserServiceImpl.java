@@ -10,6 +10,9 @@ import com.fantasmaDux.shopping_cart.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User getUserById(UUID userId) {
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setPassword((request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         return userRepository.save(user);
 
@@ -66,4 +70,13 @@ public class UserServiceImpl implements UserService {
     public UserDto convertUserToDto(User user) {
         return modelMapper.map(user, UserDto.class);
     }
+
+    @Override
+    public User getAuthentificatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email);
+    }
+
+
 }
