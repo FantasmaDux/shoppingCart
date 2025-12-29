@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🛒 Shopping Cart</h1>
+
+    <!-- Форма логина -->
+    <div id="login-section" class="card">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <!-- Товары (покажем после логина) -->
+    <div id="products-section" class="card" style="display: none;">
+        <h2>Products</h2>
+        <div id="products-list"></div>
+    </div>
+
+    <!-- Корзина -->
+    <div id="cart-section" class="card" style="display: none;">
+        <h2>🛒 Your Cart</h2>
+        <div id="cart-items"></div>
+        <button id="checkout-btn">Checkout</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

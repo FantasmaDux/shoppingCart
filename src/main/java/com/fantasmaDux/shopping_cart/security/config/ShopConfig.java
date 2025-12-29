@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class ShopConfig {
 
     private final ShopUserDetailsService userDetailsService;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final CorsConfigurationSource corsConfigurationSource;
+
     private static final List<String> SECURED_URLS =
             List.of("/api/v1/carts/**", "/api/v1/cartItems/**");
 
@@ -62,7 +65,9 @@ public class ShopConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated()

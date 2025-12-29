@@ -30,8 +30,8 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Set<String> roles = Set.of("ROLE_USER", "ROLE_ADMIN");
         createDefaultRoleIfNotExists(roles);
-//        createDefaultUserIfNotExists();
-//        createDefaultAdminIfNotExists();
+        createDefaultUserIfNotExists();
+        createDefaultAdminIfNotExists();
     }
 
     private void createDefaultUserIfNotExists() {
