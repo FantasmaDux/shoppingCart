@@ -7,13 +7,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+import java.nio.file.AccessDeniedException;
+
+@ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("Access denied: " + e.getMessage());
+        String message = "Access denied. You are not allowed";
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
 
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ApiResponse> handleAlreadyExistsException(AlreadyExistsException e) {
