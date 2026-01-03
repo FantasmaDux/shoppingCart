@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS images(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     file_name VARCHAR(255),
     file_type VARCHAR(100),
-    image BYTEA,
+    image OID,
     download_url VARCHAR(500),
     product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE
 );

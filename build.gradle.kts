@@ -28,7 +28,7 @@ dependencies {
 	// === Spring Boot 3.x Starterы (правильные названия) ===
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web")  // БЕЗ "mvc"!
+	implementation("org.springframework.boot:spring-boot-starter-web")
 
 	// Spring Security
 	implementation("org.springframework.boot:spring-boot-starter-security")
