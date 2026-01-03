@@ -52,13 +52,14 @@ public class ShopConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        var authProvider = new DaoAuthenticationProvider(userDetailsService);
+        var authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);  // Установить сервис отдельно
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

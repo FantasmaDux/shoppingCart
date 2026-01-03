@@ -1,10 +1,10 @@
 package com.fantasmaDux.shopping_cart.service.cart;
 
 import com.fantasmaDux.shopping_cart.api.exception.CartNotFoundException;
+import com.fantasmaDux.shopping_cart.store.model.Cart;
 import com.fantasmaDux.shopping_cart.store.model.CartItem;
 import com.fantasmaDux.shopping_cart.store.model.User;
 import com.fantasmaDux.shopping_cart.store.repository.CartItemRepository;
-import com.fantasmaDux.shopping_cart.store.model.Cart;
 import com.fantasmaDux.shopping_cart.store.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

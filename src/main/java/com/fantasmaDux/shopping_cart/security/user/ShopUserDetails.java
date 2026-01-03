@@ -1,11 +1,11 @@
 package com.fantasmaDux.shopping_cart.security.user;
 
 import com.fantasmaDux.shopping_cart.store.model.User;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,23 +55,24 @@ public class ShopUserDetails implements UserDetails {
         return email;
     }
 
+    // === ОБЯЗАТЕЛЬНО реализовать эти методы ===
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;  // Аккаунт не просрочен
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;  // Аккаунт не заблокирован
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;  // Учетные данные не просрочены
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;  // Аккаунт включен
     }
 }
