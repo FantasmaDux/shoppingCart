@@ -23,7 +23,6 @@ public class CartItemController {
 
     @PostMapping("/item")
     public ResponseEntity<ApiResponse> addItemToCart(
-            @RequestParam UUID userId,
             @RequestParam UUID productId,
             @RequestParam Integer quantity) {
 
