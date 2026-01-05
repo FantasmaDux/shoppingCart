@@ -41,7 +41,7 @@ async function loadCart() {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/cart`, {
+        const response = await fetch(`${API_URL}/carts`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
