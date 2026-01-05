@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: #333;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h1 style="text-align: center;">🛒 Shopping Cart</h1>
+    <h2 style="text-align: center;">Login</h2>
+
+    <form id="login-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+
+        <p id="message" style="text-align: center; margin-top: 15px;"></p>
+    </form>
+
+    <a href="index.html" class="back-link">← Back to Products</a>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    // Логика логина на странице login.html
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const message = document.getElementById('message');
+
+        try {
+            const result = await login(email, password);
+
+            if (result.success) {
+                message.textContent = 'Login successful! Redirecting...';
+                message.style.color = 'green';
+
+                // Редирект на главную через 1 секунду
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                message.textContent = result.error;
+                message.style.color = 'red';
+            }
+        } catch (error) {
+            message.textContent = 'Error: ' + error.message;
+            message.style.color = 'red';
+        }
+    });
+</script>
+</body>
+</html>
