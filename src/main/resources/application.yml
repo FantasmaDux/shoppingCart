@@ -2,7 +2,7 @@ spring:
   application:
     name: shopping-cart
   datasource:
-    url: jdbc:postgresql://localhost:5432/shopping-cart-db
+    url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_INTERNAL_PORT}/${POSTGRES_DB}
     username: postgres
     password: 267115
 
