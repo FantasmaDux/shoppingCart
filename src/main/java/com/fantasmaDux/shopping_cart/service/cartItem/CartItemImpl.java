@@ -9,11 +9,13 @@ import com.fantasmaDux.shopping_cart.store.model.Product;
 import com.fantasmaDux.shopping_cart.store.repository.CartItemRepository;
 import com.fantasmaDux.shopping_cart.store.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartItemImpl implements CartItemService {
@@ -42,6 +44,12 @@ public class CartItemImpl implements CartItemService {
         cart.addItem(cartItem);
         cartItemRepository.save(cartItem);
         cartRepository.save(cart);
+
+        log.info("Added cart item to the cart");
+        log.info("Product price: {}", product.getPrice());
+        log.info("Quantity: {}", cartItem.getQuantity());
+        log.info("CartItem unitPrice: {}", cartItem.getUnitPrice());
+
     }
 
     @Override
