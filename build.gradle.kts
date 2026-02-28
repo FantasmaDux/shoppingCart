@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.2.0"
+	id("org.springframework.boot") version "3.0.0"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -35,7 +35,7 @@ dependencies {
 
 	// === JWT для Spring Boot 3.x/Java 17 ===
 	implementation("io.jsonwebtoken:jjwt-api:0.12.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
 
 	// Для конвертирования сущностей в DTO
@@ -55,7 +55,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+
+	// === Swagger ===
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")}
 
 tasks.withType<Test> {
 	useJUnitPlatform()
