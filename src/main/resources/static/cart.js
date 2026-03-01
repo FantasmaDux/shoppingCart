@@ -9,16 +9,13 @@ async function addToCart(productId) {
     }
 
     try {
-        const response = await fetch(`${API_URL}/cartItems/item`, {
+        const url = `${API_URL}/cartItems/item?productId=${productId}&quantity=1`;
+
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                productId: productId,
-                quantity: 1
-            })
         });
 
         if (response.ok) {
@@ -41,8 +38,8 @@ async function loadCart() {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/cart`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+        const response = await fetch(`${API_URL}/carts`, {
+            headers: {'Authorization': `Bearer ${token}`}
         });
 
         const cart = await response.json();
@@ -82,7 +79,7 @@ async function checkout() {
     try {
         const response = await fetch(`${API_URL}/orders`, {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: {'Authorization': `Bearer ${token}`}
         });
 
         if (response.ok) {

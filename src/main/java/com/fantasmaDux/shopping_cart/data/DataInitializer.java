@@ -74,9 +74,14 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
 
 
     private void createDefaultRoleIfNotExists(Set<String> roles) {
-        roles
-                .stream()
-                .map(Role::new).forEach(roleRepository::save);
+        for (String roleName : roles) {
+            if (!roleRepository.existsByName(roleName)) {
+                roleRepository.save(new Role(roleName));
+                log.info("Role created: {}", roleName);
+            } else {
+                log.debug("Role already exists: {}", roleName);
+            }
+        }
     }
 
 }
